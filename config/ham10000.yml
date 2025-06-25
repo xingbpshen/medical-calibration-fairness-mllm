@@ -1,0 +1,14 @@
+data:
+  dataset: "ham10000"
+  data_dir: ""
+
+sampling:
+  n: 1
+  temperature: 0.2  # do not change to 0.0, possible unexpected behavior
+  top_logprobs: 6
+  max_completion_tokens: 1
+
+parsing:
+  options: [ "negative", "positive" ] # [0, 1, ...]
+
+attributes: [ "sex", "b_age" ]
