@@ -2,26 +2,31 @@ import pandas as pd
 import os
 
 
-def get_dataset(config):
+def get_dataset(config, split_name):
     if config.data.dataset == "papila":
         # Read csv file
-        split = pd.read_csv(os.path.join(config.data.data_dir, "split/new_train.csv"))
+        if split_name == "test":
+            split = pd.read_csv(os.path.join(config.data.data_dir, 'splits/', str(config.data.test_split)))
+        elif split_name == "train":  # in-context learning exemplars
+            split = pd.read_csv(os.path.join(config.data.data_dir, 'splits/', str(config.data.train_split)))
+        else:
+            raise ValueError
         # Here we will use image file name (xxxx.jpg) as the unique identifier
-        # We select the "Path", "Diagnosis", "Age", "Gender" columns
-        # Note that "Diagnosis=1" means positive, "Gender=1" means female
         # For each row, we create a dictionary
         dict_list = []
         for index, row in split.iterrows():
             dict_list.append({
-                "image_id": row["Path"],
-                "image_path": os.path.join(config.data.data_dir, "data/FundusImages", row["Path"]),
-                "gt_answer": row["Diagnosis"],
-                "age": row["Age"],
-                "b_age": 1 if row["Age"] >= 60 else 0,
-                "sex": row["Gender"]})
+                "image_id": row[config.data.image_name_col],
+                "image_path": os.path.join(config.data.data_dir, "images/", row[config.data.image_name_col]),
+                "gt_answer": row[config.data.diagnosis_col],
+                "age": row[config.data.patient_age_col],
+                # Binary age
+                "b_age": 1 if row[config.data.patient_age_col] >= 60 else 0,
+                "sex": row[config.data.patient_sex_col]})
         # Sort the list of dictionaries by image_id
         dict_list = sorted(dict_list, key=lambda x: x["image_id"])
         return dict_list
+    # Modify below or add your own dataset
     elif config.data.dataset == "ham10000":
         # Read csv file
         split = pd.read_csv(os.path.join(config.data.data_dir, "split/my_test_age.csv"))

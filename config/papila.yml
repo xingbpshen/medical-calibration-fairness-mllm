@@ -1,6 +1,15 @@
 data:
-  dataset: "papila"
-  data_dir: ""
+  dataset: "papila" # dataset name
+  data_dir: ""  # e.g., "/XXX/medical-calibration-fairness-mllm/data/papila/"
+  train_split: "" # e.g., "train.csv" placed in "/XXX/medical-calibration-fairness-mllm/data/papila/splits/"
+  val_split: "" # e.g., "val.csv"
+  test_split: ""  # e.g., "test.csv"
+  image_name_col: "image_name"  # column name for image names, an example entry could be "image_12345.jpg" placed in "/XXX/medical-calibration-fairness-mllm/data/papila/images/"
+  # other column names
+  patient_age_col: "patient_age"  # column name for patient age
+  patient_sex_col: "patient_sex"
+  diagnosis_col: "diagnosis"  # column name for labels, e.g., "0" or "1"
+  # you can add more here, use them in dataset/__init__.py
 
 sampling:
   n: 1
@@ -11,4 +20,4 @@ sampling:
 parsing:
   options: ["negative", "positive"] # [0, 1, ...]
 
-attributes: ["sex", "b_age"]
+attributes: ["sex", "b_age"]  # transformed attributes that we care about, sex and binary age (young vs old), the transformation is done in dataset/__init__.py

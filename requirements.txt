@@ -1,0 +1,9 @@
+python>=3.10
+numpy
+torch
+huggingface-hub
+transformers
+fairlearn
+openai
+pandas
+vllm
