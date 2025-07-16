@@ -32,7 +32,7 @@ class BasePrompt(ABC):
         pass
 
     @abstractmethod
-    def parse_response(self, response: any) -> dict:
+    def parse_response(self, response: any) -> any:
         """
         Parse the response from the model.
 

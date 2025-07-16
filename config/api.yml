@@ -1,2 +1,0 @@
-api_key:
-  azure_openai: ""  # Your Azure OpenAI Service API key, leave it empty if you are using local LLM

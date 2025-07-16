@@ -1,6 +1,6 @@
 data:
   dataset: "papila" # dataset name
-  data_dir: ""  # e.g., "/XXX/medical-calibration-fairness-mllm/data/papila/"
+  data_dir: ""  # absolute path e.g., "/XXX/medical-calibration-fairness-mllm/data/papila/"
   train_split: "" # e.g., "train.csv" placed in "/XXX/medical-calibration-fairness-mllm/data/papila/splits/"
   val_split: "" # e.g., "val.csv"
   test_split: ""  # e.g., "test.csv"
@@ -18,6 +18,7 @@ sampling:
   max_completion_tokens: 1
 
 parsing:
-  options: ["negative", "positive"] # [0, 1, ...]
-
-attributes: ["sex", "b_age"]  # transformed attributes that we care about, sex and binary age (young vs old), the transformation is done in dataset/__init__.py
+  answer_options: ["negative", "positive"] # [0, 1, ...] order is important
+  attributes:  # attributes that we care about, the order is important
+    b_age: ["age <60", "age >=60"]
+    sex: ["male", "female"]

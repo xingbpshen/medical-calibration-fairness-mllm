@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from typing import List
 
 
 class BaseMLLM(ABC):
@@ -8,24 +9,25 @@ class BaseMLLM(ABC):
     """
 
     @abstractmethod
-    def generate(self, prompt: str) -> str:
+    def generate(self, prompt: List[dict], **kwargs) -> any:
         """
         Generate text based on the provided prompt.
 
         Args:
-            prompt (str): The input text to generate a response for.
+            prompt (List[dict]): The input content to generate a response for.
+            kwargs: Additional keyword arguments for generation, such as temperature, max tokens, etc.
 
         Returns:
-            str: The generated text response.
+            any: The generated response.
         """
         pass
 
     @abstractmethod
-    def load_model(self, model_path: str):
+    def load_model(self, **kwargs):
         """
         Load the model from the specified path.
 
         Args:
-            model_path (str): The path to the model file.
+            kwargs: Keyword arguments for model loading, such as model path or configuration.
         """
         pass

@@ -7,3 +7,4 @@ fairlearn
 openai
 pandas
 vllm
+inflect
