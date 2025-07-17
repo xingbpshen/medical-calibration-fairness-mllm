@@ -8,6 +8,11 @@ import random
 import numpy as np
 import requests
 import time
+import yaml
+from prompt.papila import PapilaPrompt
+from mllm.compatible_server import CompatibleServer
+from typing import List
+import json
 
 
 def user_warning(msg):
@@ -16,6 +21,83 @@ def user_warning(msg):
 
 def info(file_name, msg):
     print(f"\033[1;94m[{file_name}]\033[0m \033[94mINFO\033[0m {msg}")
+
+
+def get_prompt_class(dataset: str):
+    """
+    Returns the appropriate prompt class based on the dataset name.
+    :param dataset: Name of the dataset (e.g., "papila").
+    :return: The corresponding prompt class.
+    """
+    if dataset == "papila":
+        return PapilaPrompt
+    else:
+        raise ValueError(f"Unsupported dataset: {dataset}.")
+
+
+def get_mllm_class(service: str):
+    """
+    Returns the appropriate MLLM class based on the service name.
+    :param service: Name of the service (e.g., "local_mllm").
+    :return: The corresponding MLLM class.
+    """
+    if service in ["local_mllm", "azure_openai"]:
+        return CompatibleServer
+    else:
+        raise ValueError(f"Unsupported MLLM service: {service}.")
+
+
+def get_get_image_url_func(service: str):
+    """
+    Returns the appropriate function to get the image URL based on the service name.
+    :param service: Name of the service (e.g., "local_mllm").
+    :return: The corresponding function to get the image URL.
+    """
+    if service == "azure_openai":
+        return get_image_url_for_api_mllm
+    elif service == "local_mllm":
+        return get_image_url_for_local_mllm
+    else:
+        raise ValueError(f"Unsupported MLLM service: {service}.")
+
+
+def get_remaining_data_points(log_file_path: str, all_data_points: List[dict]):
+    # first check if the log file (json) exists
+    if not os.path.exists(log_file_path):
+        return all_data_points
+    else:
+        # read the log json file to list of dicts
+        with open(log_file_path, "r") as f:
+            log_data = json.load(f)
+        # get the list of data id (image_id) that have been processed
+        completed_ids = [item['image_id'] for item in log_data]
+        # filter the all_data_points to only include those that are not in completed_ids
+        remaining_data_points = [item for item in all_data_points if item['image_id'] not in completed_ids]
+        return remaining_data_points
+
+
+def append_log_and_save(log_file_path: str, log_data: dict):
+    """
+    Append log data to the log file and save it.
+    :param log_file_path: Path to the log file.
+    :param log_data: Log data to append.
+    """
+    # check if the log file exists
+    if not os.path.exists(log_file_path):
+        # if not, create an empty list and write it to the file
+        with open(log_file_path, "w") as f:
+            json.dump([], f)
+
+    # read existing log data
+    with open(log_file_path, "r") as f:
+        existing_log_data = json.load(f)
+
+    # append new log data
+    existing_log_data.append(log_data)
+
+    # write back to the log file
+    with open(log_file_path, "w") as f:
+        json.dump(existing_log_data, f, indent=4)
 
 
 def get_gpu_compute_capability():
@@ -35,13 +117,13 @@ def get_vllm_dtype():
             return "half"
 
 
-def is_ready(port):
+def is_ready(host, port):
     """
     Check if the vllm server is ready to accept requests.
     :param port: The port on which the vllm server is running.
     :return: True if the server is ready, False otherwise.
     """
-    url = f"http://localhost:{port}/health/"
+    url = f"http://{host}:{port}/health/"
     try:
         response = requests.get(url)
     except requests.exceptions.RequestException as exc:
@@ -51,33 +133,34 @@ def is_ready(port):
             return True
 
 
-def wait_until_ready(port, subproc, timeout=1800):
+def wait_until_ready(host, port, subproc, timeout=1800):
     """
     Wait until the vllm server is ready to accept requests.
+    :param host: The host on which the vllm server is running.
     :param port: The port on which the vllm server is running.
     :param subproc: The subprocess object for the vllm server.
     :param timeout: The maximum time to wait in seconds.
     """
     start_time = time.time()
-    while not is_ready(port):
+    while not is_ready(host, port):
         # if the server has exited, raise an error
         if subproc.poll() is not None:
             stderr_output = subproc.stderr.read().decode()
             raise RuntimeError(
-                f"Error:\n{stderr_output}\nvLLM server at port {port} exited unexpectedly, please kill the corresponding GPU process manually by:\nkill -9 PID")
+                f"Error:\n{stderr_output}\nvLLM server at http://{host}:{port} exited unexpectedly, please kill the corresponding GPU process manually by:\nkill -9 PID")
         if time.time() - start_time > 30:
             info('util.__init__.py', 'Still waiting? Check the GPU mem usage to make sure no server is lost.')
         if time.time() - start_time > timeout:
             raise TimeoutError(
-                f"Server at port {port} did not become ready within {timeout} seconds.")
+                f"vLLM server at http://{host}:{port} did not become ready within {timeout} seconds.")
         time.sleep(10)
 
 
-def dict2namespace(config):
+def dict_to_namespace(config):
     namespace = argparse.Namespace()
     for key, value in config.items():
         if isinstance(value, dict):
-            new_value = dict2namespace(value)
+            new_value = dict_to_namespace(value)
         else:
             new_value = value
         setattr(namespace, key, new_value)
@@ -149,3 +232,45 @@ def parse_content(top_logprobs, options: list) -> [int, dict]:
     # Example return:
     # 1, {0: 0.1, 1: 0.9}
     return pred_answer, cate_idx
+
+
+def parse_args_and_configs():
+    parser = argparse.ArgumentParser(description=globals()["__doc__"])
+
+    parser.add_argument(
+        "--config", type=str, required=True, help="Name of the dataset config file in ./config/ (e.g., papila.yml)"
+    )
+    parser.add_argument(
+        "--log", type=str, default="./log", help="Path for saving running related data (e.g., ./log)"
+    )
+    parser.add_argument(
+        "--trial",
+        type=str,
+        required=False,
+        help="A string for documentation purpose. "
+             "Will be the name of the folder inside the log folder and the comet trial name.",
+    )
+    parser.add_argument("--service", type=str, required=True,
+                        help="Name of the service to use (e.g., local_mllm)")
+    parser.add_argument("--comment", type=str, default="",
+                        help="A string for experiment comment")
+
+    args = parser.parse_args()
+
+    # parse config file
+    with open(os.path.join("./config", args.config), "r") as f:
+        config = yaml.safe_load(f)
+    config = dict_to_namespace(config)
+
+    with open("./config/mllm.yml", "r") as f:
+        mllm_config = yaml.safe_load(f)
+    mllm_config = dict_to_namespace(mllm_config)
+
+    assert hasattr(mllm_config, args.service)
+
+    # add argument for compute capability
+    args.vllm_dtype = get_vllm_dtype()
+    # add argument for log folder
+    args.log_save_folder = os.path.join(args.log, args.trial) if args.trial else args.log
+
+    return args, config, mllm_config

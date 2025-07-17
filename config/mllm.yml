@@ -13,5 +13,6 @@ local_mllm:
   use_vllm_serve: true  # use vLLM for local MLLM, do not change this
   host: localhost
   port: 8000  # local MLLM port, can be adjusted based on your hardware, e.g., 8000
+  cuda_visible_devices: ""  # CUDA devices for local MLLM, can be adjusted based on your hardware, e.g., "0,1"
   tensor_parallel_size: 8  # tensor parallel size, can be adjusted based on your hardware, e.g., 1, 2, 4, etc.
   gpu_memory_utilization: 0.9  # GPU memory utilization, can be adjusted based on your hardware, e.g., 0.9

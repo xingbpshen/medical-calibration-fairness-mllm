@@ -14,7 +14,7 @@ class CompatibleServer(BaseMLLM):
         # Additional initialization can be added here if needed
         self.client, self.model = self.load_model(args=args, config=config)
 
-    def generate(self, prompt: List[dict], **kwargs) -> any:
+    def chat_completion(self, prompt: List[dict], **kwargs) -> any:
         """
         Generate text based on the provided prompt.
 

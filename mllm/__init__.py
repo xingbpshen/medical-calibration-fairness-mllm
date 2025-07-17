@@ -9,7 +9,11 @@ class BaseMLLM(ABC):
     """
 
     @abstractmethod
-    def generate(self, prompt: List[dict], **kwargs) -> any:
+    def __init__(self, args, config):
+        pass
+
+    @abstractmethod
+    def chat_completion(self, prompt: List[dict], **kwargs) -> any:
         """
         Generate text based on the provided prompt.
 

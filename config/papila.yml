@@ -19,6 +19,7 @@ sampling:
 
 parsing:
   answer_options: ["negative", "positive"] # [0, 1, ...] order is important
-  attributes:  # attributes that we care about, the order is important
+  attributes:  # attributes that will appear in the text query, the order is important, use same names as in the dataset/__init__.py
     b_age: ["age <60", "age >=60"]
-    sex: ["male", "female"]
+    sex: ["male", "female"]  # you can add more attributes
+  cared_attribute: ""  # e.g., "sex", select one from parsing.attributes

@@ -9,6 +9,10 @@ class BasePrompt(ABC):
     """
 
     @abstractmethod
+    def __init__(self, get_image_url, parsing_namespace, exemplar_data_points: List[dict] = None):
+        self.attributes_namespace = None
+
+    @abstractmethod
     def build(self, **kwargs) -> List[dict]:
         """
         Format the prompt with the provided keyword arguments.
