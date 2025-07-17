@@ -19,6 +19,46 @@ git clone https://github.com/xingbpshen/medical-calibration-fairness-mllm.git
 cd medical-calibration-fairness-mllm/
 pip install -r requirements.txt
 ```
-### 1.2 Downloading the dataset
+### 1.2 Preparing the dataset
+The downloaded dataset should be structured in the following format, the `data/` directory should be placed at the root of the repository:
+```
+   data/
+    ├── dataset1/
+    │   ├── images/
+    │   │   ├── image1.jpg
+    │   │   ├── image2.jpg
+    │   │   └── ...
+    │   └── splits/
+    │       ├── train.csv
+    │       └── test.csv
+    ├── dataset2/
+    │   └── ... 
+    └── ...
+```
+The split files can have a few key columns such as: `image_name`, `patient_age`, `diagnosis`.
+### 1.3 Downloading the open-source MLLM (optional)
+The implementation in this code repository supports open-source MLLM inference via vLLM. It is recommended to download the MLLM from HuggingFace using the following command:
+```bash
+huggingface-cli login
+huggingface-cli download {REPO_NAME} --local-dir {SAVE_FOLDER} --local-dir-use-symlinks False
+```
+Please modify the `{REPO_NAME}` and `{SAVE_FOLDER}` according to your needs.
+### 1.4 Modifying configs
+Please modify all config files in `config/` according to your experimental settings, and make sure you followed the instructions stated in config files.
 
-Updating the codebase, please check back later.
+## 2. Running inference
+Please run the following command to run inference:
+```bash
+python main.py --config {DATASET}.yml --log {LOG_FOLDER_PATH} --trial {TRIAL_NAME} --service {SERVICE} --comment {COMMENT}
+```
+Replace `{DATASET}`, `{LOG_FOLDER_PATH}`, `{TRIAL_NAME}`, `{SERVICE}`, and `{COMMENT}` with your desired dataset, log folder path, trial name, service type, and comment respectively. The help message can be viewed by running `python main.py --help`.
+
+The inference results file `log.json` will be saved in the specified path `{LOG_FOLDER_PATH}/{TRIAL_NAME}/`.
+
+This inference script supports automatically resuming from the last checkpoint if the inference was interrupted. It will also automatically create the log folder if it does not exist.
+
+## Acknowledgements
+This work was supported in part by the Natural Sciences and Engineering Research Council of Canada (NSERC), in part by the Canadian Institute for Advanced Research (CIFAR) Artificial Intelligence Chairs Program, in part by the Mila - Quebec Artificial Intelligence Institute, in part by the Mila-Google Research Grant, and in part by the Canada First Research Excellence Fund, awarded to the Healthy Brains, Healthy Lives initiative at McGill University.
+
+## Contact
+Please raise a GitHub issue or email us at <a href="mailto:xing.shen@mail.mcgill.com">xing.shen@mail.mcgill.com</a> (with the email subject starting with "[CALIN]") if you have any question or encounter any issue.
