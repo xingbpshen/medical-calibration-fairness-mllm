@@ -2,6 +2,11 @@
 Exposing and Mitigating Calibration Biases and Demographic Unfairness in MLLM In-Context Learning
 </h1>
 
+<p align="center">
+  <a href="https://arxiv.org/abs/2506.23298"><img src="https://img.shields.io/badge/arXiv-2506.23298-b31b1b.svg" alt="arXiv"></a>
+  <a href="https://www.python.org/"><img src="https://img.shields.io/badge/python-3.10+-blue.svg" alt="Python Version"></a>
+</p>
+
 This repository contains the official implementation of the paper:
 > __Exposing and Mitigating Calibration Biases and Demographic Unfairness in MLLM Few-Shot In-Context Learning for Medical Image Classification__  
 > [Xing Shen](https://scholar.google.com/citations?hl=en&user=U69NqfQAAAAJ), [Justin Szeto](https://scholar.google.com/citations?user=niVJ08oAAAAJ&hl=en), [Mingyang Li](https://scholar.google.com/citations?user=t-yX74gAAAAJ&hl=en), [Hengguan Huang](https://scholar.google.com/citations?hl=en&user=GQm1eZEAAAAJ), [Tal Arbel](https://www.cim.mcgill.ca/~arbel/)  
