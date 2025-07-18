@@ -21,7 +21,7 @@ We are committed to promoting the ethical and responsible use of health data in 
 ## Overview
 Multimodal large language models (MLLMs) offer strong potential for few-shot in-context learning in medical image analysis. However, their deployment in clinical settings demands careful evaluation of both prediction accuracy and calibration, especially across demographic subgroups. To address this need, we propose **CALIN**, an inference-time calibration method that mitigates calibration bias and demographic unfairness. CALIN estimates calibration matrices through a bi-level approach: first at the population level, then refined at the subgroup level, before adjusting confidence scores during inference. This ensures fairer and more reliable predictions across diverse populations.
 <p align="center">
-  <img src="./assets/fig.png" alt="fig" width="65%"/>
+  <img src="./assets/fig.png" alt="fig" width="80%"/>
 </p>
 
 ## 1. Preparation
