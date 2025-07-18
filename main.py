@@ -4,6 +4,7 @@ import os
 import subprocess
 from dataset import get_dataset
 from function import query_calibrated_answer_probs
+from tqdm import tqdm
 
 
 def main():
@@ -53,7 +54,7 @@ def main():
         log_file_path=os.path.join(args.log_save_folder, log_file_name),
         all_data_points=data_points)
     util.info('main.py', f"Number of data points for inference: {len(remaining_data_points)}")
-    for data_point in remaining_data_points:
+    for data_point in tqdm(remaining_data_points):
         answer, prob_dict = query_calibrated_answer_probs(data_point=data_point,
                                                           use_prompt=use_prompt,
                                                           use_mllm=use_mllm,

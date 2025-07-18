@@ -4,7 +4,9 @@ Exposing and Mitigating Calibration Biases and Demographic Unfairness in MLLM In
 
 <p align="center">
   <a href="https://arxiv.org/abs/2506.23298"><img src="https://img.shields.io/badge/arXiv-2506.23298-b31b1b.svg" alt="arXiv"></a>
-  <a href="https://www.python.org/"><img src="https://img.shields.io/badge/Python-3.10+-blue.svg" alt="Python Version"></a>
+  <a href="https://www.python.org/"><img src="https://img.shields.io/badge/Python-3.10.11-blue.svg" alt="Python Version"></a>
+  <a href="https://pytorch.org/"><img src="https://img.shields.io/badge/PyTorch-2.7.0-de5737.svg" alt="PyTorch Version"></a>
+  <a href="https://docs.vllm.ai/en/v0.9.1/"><img src="https://img.shields.io/badge/vLLM-0.9.1-54a0f8.svg" alt="vLLM Version"></a>
 </p>
 
 This repository contains the official implementation of the paper:
