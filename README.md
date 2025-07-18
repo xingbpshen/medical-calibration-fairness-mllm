@@ -18,6 +18,10 @@ This repository contains the official implementation of the paper:
 ### Ethical and responsible use of health data with large language models
 We are committed to promoting the ethical and responsible use of health data in the context of large language models (LLMs) and multimodal large language models (MLLMs). The code provided in this repository is intended solely for demonstration and research purposes. It must not be interpreted as permission to use any protected health information. We urge users to carefully consider the ethical dimensions of their work and to ensure full compliance with all applicable laws and regulations governing the use of health data.
 
+## Overview
+Multimodal large language models (MLLMs) offer strong potential for few-shot in-context learning in medical image analysis. However, their deployment in clinical settings demands careful evaluation of both prediction accuracy and calibration, especially across demographic subgroups. To address this need, we propose CALIN, an inference-time calibration method that mitigates calibration bias and demographic unfairness. CALIN estimates calibration matrices through a bi-level approach: first at the population level, then refined at the subgroup level, before adjusting confidence scores during inference. This ensures fairer and more reliable predictions across diverse populations.
+![fig](./assets/fig.png)
+
 ## 1. Preparation
 ### 1.1 Installation
 It is recommended to use a virtual environment (e.g., `venv`) to avoid package conflicts. Here we assume you are using `venv` as your virtual environment. If you are using conda, please adjust the commands accordingly.
