@@ -50,7 +50,7 @@ The downloaded dataset should be structured in the following format, the `data/`
 ```
 The split files can have a few key columns such as: `image_name`, `patient_age`, `diagnosis`.
 ### 1.3 Downloading the open-source MLLM (optional)
-The implementation in this code repository supports open-source MLLM inference via [vLLM](https://docs.vllm.ai/en/latest/). It is recommended to download the MLLM from [Hugging Face](https://huggingface.co) using the following command:
+The implementation in this code repository supports closed-source MLLM inference via API requests and also open-source MLLM inference via [vLLM](https://docs.vllm.ai/en/latest/). It is recommended to download the MLLM from [Hugging Face](https://huggingface.co) using the following command:
 ```bash
 huggingface-cli login
 huggingface-cli download {REPO_NAME} --local-dir {SAVE_FOLDER} --local-dir-use-symlinks False
