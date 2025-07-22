@@ -70,7 +70,7 @@ The inference results file `log.json` will be saved in the specified path `{LOG_
 
 This inference script supports automatically resuming from the last checkpoint if the inference was interrupted. It will also automatically create the log folder if it does not exist.
 
-## Acknowledgements
+## Acknowledgments
 This work was supported in part by the Natural Sciences and Engineering Research Council of Canada (NSERC), in part by the Canadian Institute for Advanced Research (CIFAR) Artificial Intelligence Chairs Program, in part by the Mila - Quebec Artificial Intelligence Institute, in part by the Mila-Google Research Grant, and in part by the Canada First Research Excellence Fund, awarded to the Healthy Brains, Healthy Lives initiative at McGill University.
 
 ## Contact
