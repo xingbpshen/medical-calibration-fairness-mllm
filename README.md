@@ -13,7 +13,7 @@ This repository contains the official implementation of the paper:
 > __Exposing and Mitigating Calibration Biases and Demographic Unfairness in MLLM Few-Shot In-Context Learning for Medical Image Classification__  
 > [Xing Shen](https://scholar.google.com/citations?hl=en&user=U69NqfQAAAAJ), [Justin Szeto](https://scholar.google.com/citations?user=niVJ08oAAAAJ&hl=en), [Mingyang Li](https://scholar.google.com/citations?user=t-yX74gAAAAJ&hl=en), [Hengguan Huang](https://scholar.google.com/citations?hl=en&user=GQm1eZEAAAAJ), [Tal Arbel](https://www.cim.mcgill.ca/~arbel/)  
 > _International Conference on Medical Image Computing and Computer Assisted Intervention, 2025_  
-> __Paper ([arXiv preprint](https://arxiv.org/abs/2506.23298))__
+> __Paper ([arXiv preprint](https://arxiv.org/abs/2506.23298)), [BibTeX](./assets/citation.bib)__
 
 ### Ethical and responsible use of health data with large language models
 We are committed to promoting the ethical and responsible use of health data in the context of large language models (LLMs) and multimodal large language models (MLLMs). The code provided in this repository is intended solely for demonstration and research purposes. It must not be interpreted as permission to use any protected health information. We urge users to carefully consider the ethical dimensions of their work and to ensure full compliance with all applicable laws and regulations governing the use of health data.
@@ -72,6 +72,19 @@ This inference script supports automatically resuming from the last checkpoint i
 
 ## Acknowledgments
 This work was supported in part by the Natural Sciences and Engineering Research Council of Canada (NSERC), in part by the Canadian Institute for Advanced Research (CIFAR) Artificial Intelligence Chairs Program, in part by the Mila - Quebec Artificial Intelligence Institute, in part by the Mila-Google Research Grant, and in part by the Canada First Research Excellence Fund, awarded to the Healthy Brains, Healthy Lives initiative at McGill University.
+
+## Citation
+If you find this repository useful in your research, please cite our paper:
+```bibtex
+@inproceedings{shen2025exposing,
+  title={Exposing and Mitigating Calibration Biases and Demographic Unfairness in MLLM Few-Shot In-Context Learning for Medical Image Classification},
+  author={Shen, Xing and Szeto, Justin and Li, Mingyang and Huang, Hengguan and Arbel, Tal},
+  booktitle={International Conference on Medical Image Computing and Computer-Assisted Intervention},
+  pages={226--236},
+  year={2025},
+  organization={Springer}
+}
+```
 
 ## Contact
 Please raise a GitHub issue or email us at <a href="mailto:xing.shen@mail.mcgill.ca">xing.shen@mail.mcgill.ca</a> (with the email subject starting with "[CALIN]") if you have any question or encounter any issue.
